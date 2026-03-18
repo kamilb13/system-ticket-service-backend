@@ -34,8 +34,8 @@ public class Ticket {
     private TicketStatus status = TicketStatus.NEW;
 
     @ManyToOne
-    @JoinColumn(name = "client_id", nullable = false)
-    private User client;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @OneToMany(mappedBy = "ticket")
     private List<Comment> comments;
@@ -45,5 +45,12 @@ public class Ticket {
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
+    }
+
+    public Ticket(String title, User user, String description, String category) {
+        this.title = title;
+        this.user = user;
+        this.description = description;
+        this.category = category;
     }
 }
