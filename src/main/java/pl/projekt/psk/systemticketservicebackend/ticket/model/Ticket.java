@@ -20,26 +20,19 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private Long id;
-
     @Column(nullable = false)
     private String title;
-
     @Column(length = 1000)
     private String description;
-
     private String category;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "STATUS", nullable = false)
     private TicketStatus status = TicketStatus.NEW;
-
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-
     @OneToMany(mappedBy = "ticket")
     private List<Comment> comments;
-
     private LocalDateTime createdAt;
 
     @PrePersist
