@@ -6,10 +6,12 @@ import org.springframework.stereotype.Service;
 import pl.projekt.psk.systemticketservicebackend.auth.UserRepository;
 import pl.projekt.psk.systemticketservicebackend.auth.exceptions.UserNotFoundException;
 import pl.projekt.psk.systemticketservicebackend.auth.model.User;
+import pl.projekt.psk.systemticketservicebackend.ticket.dto.CommentDto;
 import pl.projekt.psk.systemticketservicebackend.ticket.dto.TicketRequest;
 import pl.projekt.psk.systemticketservicebackend.ticket.dto.TicketResponse;
 import pl.projekt.psk.systemticketservicebackend.ticket.exceptions.TicketNotFoundException;
 import pl.projekt.psk.systemticketservicebackend.ticket.mapper.TicketMapper;
+import pl.projekt.psk.systemticketservicebackend.ticket.mapper.CommentMapper;
 import pl.projekt.psk.systemticketservicebackend.ticket.model.Comment;
 import pl.projekt.psk.systemticketservicebackend.ticket.model.Ticket;
 import pl.projekt.psk.systemticketservicebackend.ticket.model.TicketStatus;
@@ -73,12 +75,16 @@ public class TicketService {
         }
     }
 
-    public Ticket getTicketById(Long ticketId) {
-        return ticketRepository.findById(ticketId)
-                .orElseThrow(() -> new TicketNotFoundException("Ticket not found"));
+    public TicketResponse getTicketById(Long ticketId) {
+        Optional<Ticket> byId = ticketRepository.findById(ticketId);
+        if (byId.isEmpty()) {
+            log.error("Ticket with id {} not found", ticketId);
+            throw new TicketNotFoundException("Ticket with id " + ticketId + " not found");
+        }
+        return TicketMapper.toTicketResponse(byId.get());
     }
 
-    public List<Comment> getCommentsByTicketId(Long ticketId) {
-        return commentRepository.findAllByTicket(ticketId);
+    public List<CommentDto> getCommentsByTicketId(Long ticketId) {
+        return CommentMapper.toCommentDto(commentRepository.findAllByTicketId(ticketId));
     }
 }

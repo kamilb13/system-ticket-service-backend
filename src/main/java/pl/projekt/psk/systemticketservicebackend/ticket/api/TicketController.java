@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.projekt.psk.systemticketservicebackend.ticket.dto.AddCommentDto;
+import pl.projekt.psk.systemticketservicebackend.ticket.dto.CommentDto;
 import pl.projekt.psk.systemticketservicebackend.ticket.dto.TicketRequest;
 import pl.projekt.psk.systemticketservicebackend.ticket.dto.TicketResponse;
 import pl.projekt.psk.systemticketservicebackend.ticket.logic.TicketService;
@@ -32,9 +34,9 @@ public class TicketController {
         return ResponseEntity.ok(ticketService.getTicketsByUsername(principal.getName()));
     }
 
-    @PostMapping("/{ticketId}/comments")
-    public ResponseEntity<Void> addComment(@PathVariable Long ticketId, @RequestBody String content, Principal principal) {
-        ticketService.addComment(ticketId, content, principal.getName());
+    @PostMapping("/comments")
+    public ResponseEntity<Void> addComment(@RequestBody AddCommentDto commentRequest, Principal principal) {
+        ticketService.addComment(commentRequest.ticketId(), commentRequest.comment(), principal.getName());
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -43,19 +45,19 @@ public class TicketController {
         return ResponseEntity.ok(ticketService.getAllTickets());
     }
 
-    @PatchMapping("/tech/{ticketId}/status")
-    public ResponseEntity<Void> updateStatus(@PathVariable Long ticketId, @RequestParam TicketStatus status) {
+    @PatchMapping("/tech/status")
+    public ResponseEntity<Void> updateStatus(@RequestParam TicketStatus status, @RequestParam Long ticketId) {
         ticketService.updateTicketStatus(ticketId, status);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{ticketId}")
-    public ResponseEntity<Ticket> getTicketById(@PathVariable Long ticketId) {
+    public ResponseEntity<TicketResponse> getTicketById(@PathVariable Long ticketId) {
         return ResponseEntity.ok(ticketService.getTicketById(ticketId));
     }
 
     @GetMapping("/{ticketId}/comments")
-    public ResponseEntity<List<Comment>> getCommentsByTicketId(@PathVariable Long ticketId) {
+    public ResponseEntity<List<CommentDto>> getCommentsByTicketId(@PathVariable Long ticketId) {
         return ResponseEntity.ok(ticketService.getCommentsByTicketId(ticketId));
     }
 }

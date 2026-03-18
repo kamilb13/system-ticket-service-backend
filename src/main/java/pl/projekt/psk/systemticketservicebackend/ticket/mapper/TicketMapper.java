@@ -13,6 +13,8 @@ public class TicketMapper {
                 savedTicket.getDescription(),
                 savedTicket.getCategory(),
                 savedTicket.getStatus(),
-                savedTicket.getCreatedAt());
+                savedTicket.getCreatedAt(),
+                CommentMapper.toCommentDto(savedTicket.getComments())
+        );
     }
 }
