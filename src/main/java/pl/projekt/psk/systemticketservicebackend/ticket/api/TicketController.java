@@ -9,8 +9,6 @@ import pl.projekt.psk.systemticketservicebackend.ticket.dto.CommentDto;
 import pl.projekt.psk.systemticketservicebackend.ticket.dto.TicketRequest;
 import pl.projekt.psk.systemticketservicebackend.ticket.dto.TicketResponse;
 import pl.projekt.psk.systemticketservicebackend.ticket.logic.TicketService;
-import pl.projekt.psk.systemticketservicebackend.ticket.model.Comment;
-import pl.projekt.psk.systemticketservicebackend.ticket.model.Ticket;
 import pl.projekt.psk.systemticketservicebackend.ticket.model.TicketStatus;
 
 import java.security.Principal;

@@ -10,8 +10,8 @@ import pl.projekt.psk.systemticketservicebackend.ticket.dto.CommentDto;
 import pl.projekt.psk.systemticketservicebackend.ticket.dto.TicketRequest;
 import pl.projekt.psk.systemticketservicebackend.ticket.dto.TicketResponse;
 import pl.projekt.psk.systemticketservicebackend.ticket.exceptions.TicketNotFoundException;
-import pl.projekt.psk.systemticketservicebackend.ticket.mapper.TicketMapper;
 import pl.projekt.psk.systemticketservicebackend.ticket.mapper.CommentMapper;
+import pl.projekt.psk.systemticketservicebackend.ticket.mapper.TicketMapper;
 import pl.projekt.psk.systemticketservicebackend.ticket.model.Comment;
 import pl.projekt.psk.systemticketservicebackend.ticket.model.Ticket;
 import pl.projekt.psk.systemticketservicebackend.ticket.model.TicketStatus;
@@ -86,5 +86,9 @@ public class TicketService {
 
     public List<CommentDto> getCommentsByTicketId(Long ticketId) {
         return CommentMapper.toCommentDto(commentRepository.findAllByTicketId(ticketId));
+    }
+
+    public void deleteTicket(Long ticketId) {
+        ticketRepository.deleteById(ticketId);
     }
 }
