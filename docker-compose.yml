@@ -12,5 +12,19 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
 
+  helpdesk-app:
+    build: .
+    container_name: helpdesk-backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql-db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/helpdesk_db
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root_password
+      - JWT_SECRET=a2ad753d3a3e819504079d82f15b39c7b2b9d940438cd4d654ab19e57515f06f
+    restart: always
+
 volumes:
   mysql_data:
