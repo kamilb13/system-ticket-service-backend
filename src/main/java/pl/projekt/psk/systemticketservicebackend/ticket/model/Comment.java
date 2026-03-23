@@ -16,13 +16,10 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private Long id;
-
     @Column(name = "CONTENT")
     private String commentContent;
-
     @Column(name = "USERNAME")
     private String username;
-
     @ManyToOne
     @JoinColumn(name = "TICKET_ID")
     private Ticket ticket;
